@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RailsShop</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <div class="container-fluid">
+    <% if logged_in? %>
+      <%= button_to "Logout", admin_sessions_path, method: :delete %>
+    <% end %>
+
+    <div class="row" id="admin">
+      <div class="col-md-3">
+        <h2>Admin Links</h2>
+        <ul class="nav nav-stacked">
+          <li>
+            <%= link_to "Categories", admin_categories_path %>
+          </li>
+          <li>
+            <%= link_to "Products", admin_products_path %>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-9">
+        <%= render 'shared/notifications' %>
+        <%= yield %>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+  </body>
+</html>

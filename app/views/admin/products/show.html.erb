@@ -1,0 +1,37 @@
+<%= @product.name%>
+
+<div class="button-group">
+  <%= link_to 'Edit Product', edit_admin_product_path(@product), class: '' %>
+  <%= link_to 'Delete Product', admin_product_path(@product), method: :delete, data: {confirm: "Are you sure?"} %>
+</div>
+
+<%= bootstrap_form_with(url: admin_product_images_path(@product), method: :post, local: true, label_errors: true) do |f| %>
+  <div class="form-group row my-5">
+    <div class="col-2">
+      <%= f.label :images, class: 'col-form-label'%>
+    </div>
+    <div class="col-10">
+      <%= f.file_field :images, multiple: true, step:0.01, class: 'form-control'%>
+    </div>
+  </div>
+  <%= f.submit 'Submit' , class:'btn btn-success btn-sm'%>
+<% end %>
+
+<div class="container">
+  <h1 class="display-4"> Add new image </h1> 
+  <div class="row">
+    <% @product.images.each_with_index do |image, index|%>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+              <%= image_tag @product.images[index], class: 'img-rounded img-fluid'%>
+          </div>
+          <div class="card-footer">
+            <%= link_to 'Delete Product', admin_product_image_path(@product, image), method: :delete, data: {confirm: 'Are you sure'}, class:' btn btn-sm btn-danger'%>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

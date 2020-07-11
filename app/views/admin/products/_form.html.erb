@@ -1,0 +1,47 @@
+<%= form_with(model: product, url: url, local: true) do |f|%>
+  <%= render 'shared/errors', object: product %>
+  <div class="form-group row my-5">
+    <div class="col-2">
+      <%= f.label :name, class: 'col-form-label'%>
+    </div>
+    <div class="col-10">
+      <%= f.text_field :name, class: 'form-control'%>
+    </div>
+  </div>
+  <div class="form-group row my-5">
+    <div class="col-2">
+      <%= f.label :description, class: 'col-form-label'%>
+    </div>
+    <div class="col-10">
+      <%= f.text_area :description, class: 'form-control'%>
+    </div>
+  </div>
+  <div class="form-group row my-5">
+    <div class="col-2">
+      <%= f.label :price, class: 'col-form-label'%>
+    </div>
+    <div class="col-10">
+      <%= f.number_field :price, step:0.01, class: 'form-control'%>
+    </div>
+  </div>
+  <% if product.new_record? %>
+    <div class="form-group row my-5">
+      <div class="col-2">
+        <%= f.label :images, class: 'col-form-label'%>
+      </div>
+      <div class="col-10">
+        <%= f.file_field :images, multiple: true, step:0.01, class: 'form-control'%>
+      </div>
+    </div>
+  <% end %>
+  <div class="form-group row my-5">
+    <div class="col-2">
+      <%= f.label :category, class: 'col-form-label'%>
+    </div>
+    <div class="col-10">
+      <%#= f.collection_select(:category, Category.all, :id, :name, {:prompt => 'Select'})%>
+      <%= f.select(:category_id, options_for_select(Category.all.select(:id, :name).collect { |c| [c.name, c.id]}, selected: product.category_id), {}, include_blank: true, class: "form-control") %>
+    </div>
+  </div>
+  <%= f.submit 'Submit', class: 'btn btn-block btn-success'%>
+<% end %>

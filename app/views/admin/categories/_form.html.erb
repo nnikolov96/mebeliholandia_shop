@@ -1,0 +1,4 @@
+<%= bootstrap_form_with(model: [:admin, category], local: true, label_errors: true) do |f|%>
+  <%= f.text_field :name %>
+  <%= f.submit 'Submit', class: 'btn btn-primary btn-sm' %>
+<%end%>

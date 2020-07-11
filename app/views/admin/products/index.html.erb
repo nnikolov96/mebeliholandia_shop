@@ -1,0 +1,52 @@
+<%= link_to 'New Product', new_admin_product_path, class: 'btn btn-info btn-sm mb-3' %>
+
+<%= form_tag(admin_products_url, method: :get, class: 'mb-5 max-width-720px mx-auto', enforce_utf8: false) do %>
+  <%= text_field_tag :name, params[:name], class: 'form-control form-control-md mb-1', placeholder: "Name" %>
+  <div class="form-inline justify-content-end">
+    <%= select_tag :category, options_for_select(Category.all.select(:id, :name).collect { |c| [c.name, c.id]}.unshift(['All', nil]), selected:params[:category]), class: 'form-control mr-sm-1 mb-sm-0 mb-1' %>
+
+    <%= select_tag :order, 
+      options_for_select([
+        ['Default', nil], 
+        ['Price ascending', 'price ASC'], 
+        ['Price descending', 'price DESC']],
+        params[:order]), class: 'form-control mr-sm-1 mb-sm-0 mb-1' %>
+    <div class="btn-group">
+      <%= link_to 'Clear', {}, class: 'btn btn-outline-primary btn-sm-block' if params.key?('category' || 'name' || 'order') %>
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+  </div>
+<% end %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Category</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody >
+    <% @products.each do |product|%>
+      <tr>
+        <td>
+          <%= link_to product.name, admin_product_path(product) %>
+        </td>
+        <td>
+          <%= product.price %>
+        </td>
+        <td>
+          <%= product.category %>
+        </td>
+        <td class="btn-group text-right">
+          <%= link_to 'Edit', edit_admin_product_path(product), class: 'btn btn-warning btn-sm' %>
+          <%= link_to 'Delete', admin_product_path(product), method: :delete, data: {confirm: "Are you sure?"} , 
+          class: 'btn btn-danger btn-sm' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  
+
+</table>
+<%== pagy_bootstrap_nav(@pagy) %>
